@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NexoX</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5fb;--card:#fff;--tx:#10162b;--mut:#5d6585;--pri:#2f5bff;--acc:#00b8d9;--bd:#dde2f2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1020;--card:#141b34;--tx:#e8ecff;--mut:#97a1c9;--pri:#5b82ff;--acc:#22d3ee;--bd:#26305a}}
+:root[data-theme="dark"]{--bg:#0b1020;--card:#141b34;--tx:#e8ecff;--mut:#97a1c9;--pri:#5b82ff;--acc:#22d3ee;--bd:#26305a}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Cairo,system-ui,sans-serif;line-height:1.7}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 40px}
+header{display:flex;align-items:center;gap:10px;padding:14px 0 6px}
+header svg{width:44px;height:44px}
+.name{font-weight:900;font-size:1.7rem}.name b{color:var(--acc)}
+nav{display:flex;gap:6px;overflow-x:auto;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:none;font:inherit;font-weight:700;padding:8px 14px;border:1px solid var(--bd);border-radius:999px;background:var(--card);color:var(--mut);white-space:nowrap}
+nav button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+a.btn{text-decoration:none;display:inline-block}
+.tab{display:none}.tab.on{display:block}
+h2{font-size:1.25rem;margin:10px 0 4px}
+.lead{color:var(--mut);margin:0 0 10px}
+.ill{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:10px;margin:8px 0 14px}
+.ill svg{display:block;width:100%;max-height:170px}
+details{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 14px;margin-bottom:8px}
+summary{cursor:pointer;font-weight:700;color:var(--pri)}
+summary small{display:block;font-weight:400;color:var(--mut)}
+details p{margin:8px 0 0;font-size:.95rem}
+.note{border-inline-start:4px solid var(--acc);background:var(--card);padding:10px 12px;border-radius:8px;margin:10px 0;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.card h3{margin:0;font-size:1rem;color:var(--pri);word-break:break-word}
+.card small{color:var(--mut)}
+.card img{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:8px}
+.hero{border-radius:18px;padding:22px 18px;background:linear-gradient(135deg,#1f3fd1,#0891b2);color:#fff;margin:6px 0 14px}
+.hero h1{margin:0 0 4px;font-size:1.6rem;font-weight:900}.hero p{margin:0}
+input[type=text],textarea{width:100%;font:inherit;padding:11px 13px;border:1px solid var(--bd);border-radius:12px;background:var(--card);color:var(--tx);margin-bottom:8px}
+textarea{min-height:130px;resize:vertical}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:9px 14px;background:var(--pri);color:#fff}
+.btn.del{background:transparent;color:#d33;border:1px solid #d33}
+.btn.sec{background:transparent;color:var(--pri);border:1px solid var(--pri)}
+.row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.empty{color:var(--mut);text-align:center;padding:16px}
+.me{text-align:center;padding:22px 14px}
+.avatar{width:130px;height:130px;border-radius:50%;object-fit:cover;border:3px solid var(--acc);margin:0 auto;display:block;background:var(--bd)}
+.me h2{font-size:1.5rem;margin:10px 0 2px}
+#toast{position:fixed;inset-inline:14px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--tx);color:var(--bg);padding:12px 14px;border-radius:12px;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <svg viewBox="0 0 64 64" aria-label="شعار NexoX"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f5bff"/><stop offset="1" stop-color="#00d4e8"/></linearGradient></defs><path d="M32 3 57 17.5v29L32 61 7 46.5v-29Z" fill="url(#g)"/><path d="M21 21 43 43M43 21 21 43" stroke="#fff" stroke-width="7" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="#0b1020"/></svg>
+  <div class="name">Nexo<b>X</b></div>
+</header>
+<nav id="nav" role="tablist"></nav>
+<main id="main"></main>
+</div>
+<div id="toast" role="status"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),2200)};
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const P='style="fill:var(--pri)"',A='style="fill:var(--acc)"',L='style="fill:none;stroke:var(--pri);stroke-width:3;stroke-linecap:round"';
+const ILL={
+ parts:`<svg viewBox="0 0 200 110" aria-label="رسم معالج"><rect x="65" y="25" width="70" height="60" rx="8" ${P}/><rect x="80" y="40" width="40" height="30" rx="4" ${A}/>${[75,90,105,120].map(x=>`<rect x="${x}" y="12" width="5" height="13" ${A}/><rect x="${x}" y="85" width="5" height="13" ${A}/>`).join('')}</svg>`,
+ io:`<svg viewBox="0 0 200 110" aria-label="شاشة ولوحة مفاتيح"><rect x="45" y="8" width="110" height="64" rx="7" ${P}/><rect x="52" y="15" width="96" height="50" rx="3" ${A}/><rect x="90" y="72" width="20" height="10" ${P}/><rect x="40" y="88" width="120" height="16" rx="5" ${P}/>${[50,66,82,98,114,130].map(x=>`<rect x="${x}" y="92" width="11" height="8" rx="2" ${A}/>`).join('')}</svg>`,
+ store:`<svg viewBox="0 0 200 110" aria-label="قرص تخزين"><rect x="50" y="18" width="100" height="74" rx="10" ${P}/><circle cx="100" cy="55" r="24" ${A}/><circle cx="100" cy="55" r="7" ${P}/><path d="M100 55 118 38" ${L} style="fill:none;stroke:var(--bg);stroke-width:4;stroke-linecap:round"/></svg>`,
+ net:`<svg viewBox="0 0 200 110" aria-label="راوتر"><rect x="45" y="62" width="110" height="30" rx="8" ${P}/><circle cx="68" cy="77" r="4" ${A}/><circle cx="84" cy="77" r="4" ${A}/><path d="M70 62 62 25M130 62 138 25" ${L}/><path d="M80 18a28 28 0 0 1 40 0M88 28a16 16 0 0 1 24 0" ${L} style="fill:none;stroke:var(--acc);stroke-width:4;stroke-linecap:round"/></svg>`,
+ sec:`<svg viewBox="0 0 200 110" aria-label="درع حماية"><path d="M100 8 148 24v32c0 26-20 40-48 48-28-8-48-22-48-48V24Z" ${P}/><path d="M78 56l16 16 30-32" style="fill:none;stroke:var(--acc);stroke-width:9;stroke-linecap:round;stroke-linejoin:round"/></svg>`,
+ rom:`<svg viewBox="0 0 200 110" aria-label="هاتف"><rect x="75" y="8" width="50" height="94" rx="10" ${P}/><rect x="82" y="20" width="36" height="62" rx="3" ${A}/><circle cx="100" cy="92" r="4" ${A}/></svg>`,
+ bios:`<svg viewBox="0 0 200 110" aria-label="لوحة أم"><rect x="40" y="10" width="120" height="90" rx="8" ${P}/><rect x="68" y="32" width="64" height="44" rx="5" ${A}/><text x="100" y="60" text-anchor="middle" font-size="16" font-weight="700" font-family="Cairo,sans-serif" style="fill:var(--bg)">BIOS</text>${[52,148].map(x=>`<circle cx="${x}" cy="24" r="4" ${A}/><circle cx="${x}" cy="86" r="4" ${A}/>`).join('')}</svg>`,
+ dl:`<svg viewBox="0 0 200 110" aria-label="تنزيل"><rect x="55" y="84" width="90" height="12" rx="5" ${P}/><path d="M100 12v52M78 44l22 22 22-22" style="fill:none;stroke:var(--acc);stroke-width:9;stroke-linecap:round;stroke-linejoin:round"/></svg>`
+};
+/* [الاسم، تعريف قصير، شرح معمّق] */
+const T={
+ parts:['مكونات الحاسوب','الأجزاء الداخلية التي تشكّل الجهاز.',[
+  ['المعالج CPU','عقل الحاسوب','ينفّذ ملايين التعليمات كل ثانية. يُقاس بسرعته بالجيجاهرتز وبعدد أنويته (Cores). كلما زادت الأنوية استطاع تشغيل مهام أكثر معاً. يُركَّب في مقبس على اللوحة الأم ويحتاج مبرّداً دائماً.'],
+  ['الذاكرة RAM','ذاكرة العمل السريعة','تحتفظ بالبرامج والملفات المفتوحة حالياً، وتُمسح عند إطفاء الجهاز. 8 جيجابايت تكفي للاستخدام الخفيف، و16 للألعاب والبرمجة. نقصها يجعل الجهاز بطيئاً.'],
+  ['اللوحة الأم','أساس الجهاز','لوحة تحمل المعالج والذاكرة والتخزين وكرت الشاشة وتربطها بمسارات كهربائية. نوعها يحدد المعالجات والذاكرة التي تناسبها وعدد المنافذ.'],
+  ['كرت الشاشة GPU','معالج الرسوميات','يتفوق في الحسابات المتوازية، لذلك يُستخدم في الألعاب والتصميم والذكاء الاصطناعي. يملك ذاكرة خاصة به (VRAM) تحدد جودة ما يعرضه.'],
+  ['مزوّد الطاقة PSU','قلب الكهرباء','يحوّل كهرباء الجدار المتناوبة إلى تيار مستمر مناسب لكل مكوّن. اختر قدرة أعلى بقليل من حاجتك وماركة موثوقة، لأن ضعفه قد يتلف الأجهزة.']]],
+ io:['الإدخال والإخراج','أجهزة تُدخل البيانات وأجهزة تعرض النتائج.',[
+  ['لوحة المفاتيح والفأرة','إدخال','أشهر وحدتَي إدخال. تتصل بكابل USB أو لاسلكياً عبر بلوتوث أو مستقبل صغير، وترسل الضغطات والحركات للنظام.'],
+  ['الماسح والكاميرا والميكروفون','إدخال','الماسح الضوئي يحوّل الورق إلى صور رقمية، والكاميرا تلتقط الفيديو، والميكروفون يحوّل الصوت إلى إشارة رقمية يفهمها الحاسوب.'],
+  ['الشاشة','إخراج','تعرض الصورة بنقاط تسمى بكسل. دقتها (مثل 1920×1080) ومعدل تحديثها بالهرتز (60 أو 144) يحددان وضوح الصورة وسلاستها.'],
+  ['الطابعة والسماعات','إخراج','الطابعة تنقل الملف إلى ورق (حبر أو ليزر)، والسماعات تحوّل الإشارة الرقمية إلى صوت مسموع.']]],
+ store:['التخزين','أماكن حفظ الملفات والنظام.',[
+  ['HDD','القرص الصلب','يحتوي أقراصاً دوّارة ورأس قراءة. رخيص وسعته كبيرة، لكنه أبطأ ويتأثر بالصدمات.'],
+  ['SSD','قرص الحالة الصلبة','يخزّن في شرائح فلاش دون أجزاء متحركة، فيقلع النظام في ثوانٍ. أغلى لكل جيجابايت من HDD.'],
+  ['NVMe','SSD أسرع','يتصل مباشرة بمنفذ PCIe فتبلغ سرعته أضعاف SSD العادي. مناسب للنظام والبرامج الثقيلة.'],
+  ['النسخ الاحتياطي','قاعدة 3-2-1','احتفظ بثلاث نسخ من ملفاتك على نوعين من التخزين، ونسخة واحدة خارج المنزل (سحابة مثلاً).']]],
+ net:['الشبكات','كل ما يربط الأجهزة ببعضها.',[
+  ['الراوتر','موزّع الإنترنت','يربط شبكتك المنزلية بمزوّد الإنترنت ويعطي كل جهاز عنوان IP محلياً. غيّر كلمة مروره الافتراضية دائماً.'],
+  ['DNS','دفتر عناوين الإنترنت','يحوّل اسماً مثل example.com إلى عنوان رقمي يتصل به جهازك. تغييره قد يسرّع التصفح أو يضيف حماية.'],
+  ['Wi-Fi','الشبكة اللاسلكية','نطاق 2.4GHz أبعد مدى وأبطأ، ونطاق 5GHz أسرع وأقصر مدى. استخدم تشفير WPA2 أو WPA3.'],
+  ['VPN','نفق مشفّر','يشفّر اتصالك ويمرّره عبر خادم وسيط، فيحميك على الشبكات العامة. لا يجعلك مجهولاً بالكامل.']]],
+ sec:['الأمن السيبراني','أدوات شائعة للحماية والفحص والتعلّم.',[
+  ['Wireshark','تحليل حزم الشبكة','يلتقط البيانات المارة في شبكتك ويعرضها حزمة حزمة. يستخدمه مدراء الشبكات لتشخيص البطء ورصد النشاط المشبوه.'],
+  ['Nmap','فاحص الشبكات','يكتشف الأجهزة والمنافذ المفتوحة في شبكة. فائدته الدفاعية معرفة ما هو مكشوف عندك لإغلاقه.'],
+  ['Wazuh','مراقبة وكشف تهديدات','منصة مفتوحة المصدر تجمع سجلات الأجهزة وتنبّه عند أنماط خطرة مثل محاولات دخول متكررة.'],
+  ['Burp Suite','فحص تطبيقات الويب','يعترض الطلبات بين المتصفح والموقع ليكشف الثغرات في موقعك أنت قبل المهاجمين.'],
+  ['Bitwarden','مدير كلمات المرور','يولّد كلمات مرور قوية ومختلفة لكل حساب ويحفظها مشفّرة. فعّل معه التحقق بخطوتين.']],
+  'استخدم أدوات الفحص على أجهزتك وشبكتك فقط، أو بإذن مكتوب من المالك. الفحص دون إذن غير قانوني.'],
+ rom:['الرومات (ROM)','الأنظمة التي تعمل على هواتف أندرويد.',[
+  ['ما هو الروم؟','نظام الهاتف','هو ملف النظام الكامل الذي يشغّل الهاتف، ويشمل أندرويد وواجهة الشركة وتطبيقاتها. الروم الأصلي (Stock) تضعه الشركة المصنّعة، والمخصص (Custom) يطوّره مجتمع مستقل.'],
+  ['الروم المخصص Custom','بديل للنظام الأصلي','أمثلة: LineageOS وGrapheneOS وPixel Experience. فوائده: تحديثات أطول لعمر الهاتف وخصوصية أعلى وواجهة أنظف. عيوبه: قد يفقد الضمان، وبعض الميزات مثل الكاميرا قد تتأثر.'],
+  ['الريكفري Recovery','وضع الإصلاح والتثبيت','نظام صغير يعمل قبل أندرويد، يُستخدم لتثبيت الرومات وعمل نسخة احتياطية ومسح البيانات. أشهره TWRP.'],
+  ['فتح المحمّل Bootloader','الخطوة الأولى للتثبيت','يلزم فتح قفل المحمّل قبل تثبيت روم مخصص، وهذا يمسح كل بيانات الهاتف. بعض الشركات تمنعه أو تشترط إذناً رسمياً.'],
+  ['الروت Root','صلاحيات المدير','يمنح التطبيقات صلاحيات كاملة على النظام، لكنه يقلل الأمان وقد يعطّل تطبيقات البنوك. أشهر أدواته Magisk.']],
+  'تثبيت رومات مخصصة قد يعطّل الهاتف أو يُلغي الضمان. خذ نسخة احتياطية أولاً، وحمّل الروم الخاص بموديل هاتفك بالضبط من الموقع الرسمي للروم فقط.'],
+ bios:['بيوس الحاسوب (BIOS / UEFI)','رقاقة ROM في اللوحة الأم التي تحمل إعدادات الإقلاع.',[
+  ['ما هو البيوس؟','رقاقة الإقلاع','برنامج صغير مخزّن في رقاقة ROM على اللوحة الأم. يعمل أول ما تشغّل الحاسوب: يفحص المكونات ثم يسلّم التشغيل لويندوز أو لينكس. تُحفظ إعداداته في ذاكرة صغيرة تعمل ببطارية دائرية تسمى CMOS.'],
+  ['BIOS وUEFI','القديم والحديث','UEFI هو الجيل الأحدث: واجهة رسومية تعمل بالفأرة، ودعم أقراص أكبر من 2 تيرابايت، وإقلاع أسرع، وميزات أمان مثل Secure Boot. تسميه معظم الأجهزة الحديثة BIOS أيضاً.'],
+  ['كيف تدخل إلى البيوس','مفتاح عند التشغيل','أعد التشغيل واضغط مراراً مفتاح Delete أو F2 (في ASUS وMSI وGigabyte غالباً)، أو F10 وEsc (في HP)، أو F2 (في Dell وLenovo). في ويندوز 11: الإعدادات ثم النظام ثم الاسترداد ثم إعادة التشغيل الآن ثم استكشاف الأخطاء ثم خيارات متقدمة ثم إعدادات برنامج UEFI.'],
+  ['أهم الإعدادات','ما تغيّره فعلاً','ترتيب الإقلاع Boot Order لاختيار الفلاشة أو القرص. تفعيل Virtualization (أو SVM في AMD) لتشغيل الأجهزة الافتراضية والمحاكيات. تفعيل XMP أو EXPO لتشغيل الذاكرة بسرعتها المعلنة. تفعيل TPM وSecure Boot المطلوبين لويندوز 11.'],
+  ['تحديث البيوس Flash','بحذر شديد','يصلح أخطاء ويدعم معالجات جديدة، لكن انقطاع الكهرباء أثناءه قد يعطّل اللوحة. حمّل الملف المطابق لموديل لوحتك بالضبط من موقع الشركة، واستخدم أداة التحديث داخل البيوس نفسه (مثل EZ Flash في ASUS وM-Flash في MSI وQ-Flash في Gigabyte)، وتأكد من استقرار الكهرباء.'],
+  ['إعادة ضبط البيوس Clear CMOS','عند حدوث مشكلة','إن لم يعمل الحاسوب بعد تعديل إعداد، افصل الكهرباء وأخرج بطارية CMOS لدقيقة ثم أعدها، أو اضغط زر Clear CMOS على اللوحة إن وُجد. تعود الإعدادات للوضع الافتراضي.'],
+  ['ASUS','صفحة الدعم الرسمية','ابحث عن موديل لوحتك ثم قسم التنزيلات والبيوس.','https://www.asus.com/support/'],
+  ['MSI','صفحة الدعم الرسمية','ابحث عن موديل لوحتك ثم قسم BIOS.','https://www.msi.com/support'],
+  ['Gigabyte','صفحة الدعم الرسمية','ابحث عن موديل لوحتك ثم قسم BIOS.','https://www.gigabyte.com/Support'],
+  ['Dell','دعم أجهزة Dell','أدخل رقم الخدمة Service Tag لتجد تحديث بيوس جهازك.','https://www.dell.com/support'],
+  ['HP','دعم أجهزة HP','أدخل موديل جهازك لتجد تحديثات البيوس.','https://support.hp.com'],
+  ['Lenovo','دعم أجهزة Lenovo','أدخل موديل جهازك لتجد تحديثات البيوس.','https://support.lenovo.com']],
+  'لا تحدّث البيوس إن كان جهازك يعمل جيداً. وأي ملف بيوس من موقع غير رسمي قد يتلف اللوحة أو يحمل برمجيات خبيثة.'],
+ dl:['روابط التنزيل الرسمية','نزّل دائماً من الموقع الرسمي لتتجنب الملفات الخبيثة.',[
+  ['LineageOS','روم مخصص مفتوح المصدر','يدعم مئات الأجهزة مع تحديثات منتظمة.','https://lineageos.org'],
+  ['GrapheneOS','روم للخصوصية والأمان','يدعم هواتف Pixel فقط، ويُعدّ من أكثر الأنظمة أماناً.','https://grapheneos.org'],
+  ['/e/OS','روم يركز على الخصوصية','يعمل بدون خدمات جوجل افتراضياً.','https://e.foundation'],
+  ['Pixel Experience','روم بشكل Pixel','واجهة قريبة من هواتف Pixel.','https://pixelexperience.org'],
+  ['TWRP','ريكفري مخصص','لتثبيت الرومات والنسخ الاحتياطي.','https://twrp.me'],
+  ['Platform Tools','ADB وFastboot الرسميان','أدوات جوجل للتحكم بالهاتف من الحاسوب وفتح المحمّل.','https://developer.android.com/tools/releases/platform-tools'],
+  ['Magisk','أداة الروت','صفحة المشروع الرسمية على GitHub.','https://github.com/topjohnwu/Magisk'],
+  ['F-Droid','متجر تطبيقات مفتوحة المصدر','بديل لمتجر جوجل بلاي.','https://f-droid.org'],
+  ['Rufus','تجهيز فلاشة تثبيت','ينشئ فلاشة إقلاع لتثبيت ويندوز أو لينكس.','https://rufus.ie'],
+  ['balenaEtcher','كتابة الصور على الفلاشة','أداة سهلة لكتابة ملفات ISO.','https://etcher.balena.io'],
+  ['7-Zip','فك الضغط','يفتح ملفات ZIP وRAR وغيرها مجاناً.','https://www.7-zip.org'],
+  ['VirtualBox','أجهزة افتراضية','جرّب أنظمة مختلفة داخل حاسوبك بأمان.','https://www.virtualbox.org']]]
+};
+const tabs=[['home','الرئيسية'],['parts','المكونات'],['io','الإدخال والإخراج'],['store','التخزين'],['net','الشبكات'],['sec','الأمن السيبراني'],['rom','الرومات'],['bios','البيوس BIOS'],['dl','روابط التنزيل'],['files','ملفات'],['me','عن المالك']];
+
+let h=`<section id="home" class="tab on"><div class="hero"><h1>مرحباً بك في NexoX</h1><p>دليلك المبسّط والمعمّق لعالم الحاسوب والتقنية.</p></div><p class="lead">اختر تبويباً من الأعلى، واضغط على أي عنوان لتفتح شرحه الكامل.</p></section>`;
+for(const k in T){const [t,l,items,note]=T[k];
+ h+=`<section id="${k}" class="tab"><h2>${t}</h2><p class="lead">${l}</p><div class="ill">${ILL[k]}</div>${items.map(i=>`<details><summary>${i[0]}<small>${i[1]}</small></summary><p>${i[2]}</p>${i[3]?`<div class="row"><a class="btn sec" href="${i[3]}" target="_blank" rel="noopener noreferrer">الموقع الرسمي</a></div>`:''}</details>`).join('')}${note?`<div class="note">${note}</div>`:''}</section>`}
+h+=`<section id="files" class="tab"><h2>الملفات والصور</h2><p class="lead">ملفات متاحة للتنزيل.</p><div id="flist"></div></section>`;
+h+=`<section id="me" class="tab"><div class="card me"><img id="av" class="avatar" alt="صورة المالك"><h2>شروف عبد الرحمان</h2><p class="lead">صاحب موقع NexoX</p></div></section>`;
+$('#main').innerHTML=h;
+$('#nav').innerHTML=tabs.map((t,i)=>`<button class="${i?'':'on'}" data-t="${t[0]}">${t[1]}</button>`).join('');
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id===b.dataset.t));
+  scrollTo(0,0)});
+
+const host=location.hostname;
+const OWN=host.endsWith('.github.io')?host.split('.')[0]:null;
+const REPO=OWN?(location.pathname.split('/')[1]||host):null;
+const sz=n=>n>1048576?(n/1048576).toFixed(1)+' MB':Math.ceil(n/1024)+' KB';
+async function rf(){
+ const box=$('#flist');
+ if(!OWN){box.innerHTML='<div class="empty">ستظهر ملفاتك هنا بعد نشر الموقع على GitHub Pages.</div>';return}
+ try{const r=await fetch(`https://api.github.com/repos/${OWN}/${REPO}/contents/files`);if(!r.ok)throw 0;
+  const l=(await r.json()).filter(f=>f.type==='file'&&f.name!=='.gitkeep'&&f.name!=='readme.txt');
+  box.innerHTML=l.length?l.map(f=>`<div class="card"><h3>${esc(f.name)}</h3><small>${sz(f.size)}</small>${/\.(png|jpe?g|gif|webp)$/i.test(f.name)?`<img alt="${esc(f.name)}" src="${f.download_url}">`:''}<div class="row"><a class="btn sec" href="${f.download_url}" target="_blank" rel="noopener">فتح / تنزيل</a></div></div>`).join(''):'<div class="empty">لا توجد ملفات بعد.</div>'}
+ catch(e){box.innerHTML='<div class="empty">تعذّر تحميل الملفات. تأكد أن المستودع عام وأن فيه مجلد files.</div>'}}
+rf();
+const av=$('#av');
+av.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#26305a"/><circle cx="32" cy="25" r="11" fill="#97a1c9"/><path d="M10 60c2-16 12-22 22-22s20 6 22 22Z" fill="#97a1c9"/></svg>');
+const pi=new Image();pi.onload=()=>{av.src='photo.jpg'};pi.src='photo.jpg';
+</script>
+</body>
+</html>
